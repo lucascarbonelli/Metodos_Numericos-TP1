@@ -1,125 +1,81 @@
-#include "Eigen/Dense"
-#include <cmath> 
-
-using Eigen::MatrixXd;
-using Eigen::VectorXd;
+#include <vector>
+#include <cmath>
 
 #define UMBRAL_CERO 1.0e-10
 
-void eliminacionGaussiana(MatrixXd &m, VectorXd &b);
-void triangularSuperior(MatrixXd &m, VectorXd &b);
-void triangularInferior(MatrixXd &m, VectorXd &b);
-int buscarFilaPivotInferior(MatrixXd &m, int fila, int col);
-int buscarFilaPivotSuperior(MatrixXd &m, int fila, int col);
+void resolverConEliminacionGauss(std::vector<std::vector<double> > &m, std::vector<double> &b);
+void eliminacionGaussiana(std::vector<std::vector<double> > &m, std::vector<double> &b);
+int buscarFilaPivotInferior(const std::vector<std::vector<double> > &m, int fila, int col);
+
 
 // Resolucion con el algoritmo de eliminacion de Gauss para sistemas de ecuaciones de nxn que tienen solucion y es unica
-void eliminacionGaussiana(MatrixXd &m, VectorXd &b)
+void resolverConEliminacionGauss(std::vector<std::vector<double> > &m, std::vector<double> &b)
 {
-    triangularSuperior(m, b);
-    triangularInferior(m, b);
+    int dimension = m.size();
+    eliminacionGaussiana(m, b);
 
-    for(int i = 0; i < b.size(); ++i)
+    // Se resuelve el sistema desde la ultima fila(en la cual todos los coeficientes son cero menos uno) hacia arriba
+    for(int i = dimension - 1; i >= 0; --i)
     {
-        b(i) /= m(i,i);
-        m(i,i) = 1;
+        for(int j = dimension - 1; j > i; --j)
+        {
+            b[i] -= b[j] * m[i][j];
+            m[i][j] = 0;
+        }
+
+        b[i] /= m[i][i];
+        m[i][i] = 1;
+        
     }
 }
 
-void triangularSuperior(MatrixXd &m, VectorXd &b)
+
+void eliminacionGaussiana(std::vector<std::vector<double> > &m, std::vector<double> &b)
 {
-    for(int j = 0; j < m.cols(); ++j)
+    int dimension = m.size();
+
+    for(int j = 0; j < dimension; ++j)
     {
         int filaDelPivot = j;
 
         // Se analiza el caso en el que el pivot "es cero"
-        while(std::abs(m(filaDelPivot, j)) < UMBRAL_CERO && filaDelPivot < m.rows())
+        // Se asume que el sistema tiene solucion y es unica
+        // Si para toda fila menor que filaDelPivot, la posicion j vale 0, el algoritmo falla estrepitosamente
+        while(std::abs(m[filaDelPivot][j]) < UMBRAL_CERO && filaDelPivot < dimension)
         {
             int filaSwap = buscarFilaPivotInferior(m, filaDelPivot+1, j);
-            if(filaSwap < m.rows())
+            if(filaSwap < dimension)
             {
-                m.row(filaDelPivot).swap(m.row(filaSwap));
-            }
-            // Si para toda fila menor que filaDelPivot, la posicion j vale 0, se avanza a la siguiente columna
-            else if(j < m.cols())
-            {
-                ++j;
+                m[filaDelPivot].swap(m[filaSwap]);
             }
         }
 
-        double pivot = m(filaDelPivot, j);
+        double pivot = m[filaDelPivot][j];
 
         // Establecido el pivot, comenzamos el algoritmo en la siguiente fila
 
-        for(int i = filaDelPivot+1 ; i < m.rows(); ++i)
+        for(int i = filaDelPivot+1 ; i < dimension; ++i)
         {
-            double factorDeEscalaEntreFilas = m(i, j) / pivot;
+            double factorDeEscalaEntreFilas = m[i][j] / pivot;
 
-            for(int c = j; c < m.cols(); ++c)
+            for(int c = j; c < dimension; ++c)
             {
-                m(i, c) -= factorDeEscalaEntreFilas * m(j, c);
+                m[i][c] -= factorDeEscalaEntreFilas * m[j][c];
             }
 
-            b(i) -= factorDeEscalaEntreFilas * b(j);
+            b[i] -= factorDeEscalaEntreFilas * b[j];
         }
     }
 }
 
-void triangularInferior(MatrixXd &m, VectorXd &b)
+
+int buscarFilaPivotInferior(const std::vector<std::vector<double> > &m, int fila, int col)
 {
-    for(int j = m.cols()-1; j >= 0; --j)
-    {
-        int filaDelPivot = j;
+    int dimension = m.size();
 
-        // Se analiza el caso en el que el pivot "es cero"
-        while(std::abs(m(filaDelPivot, j)) < UMBRAL_CERO && filaDelPivot >= 0)
-        {
-            int filaSwap = buscarFilaPivotSuperior(m, filaDelPivot+1, j);
-            if(filaSwap >= 0)
-            {
-                m.row(filaDelPivot).swap(m.row(filaSwap));
-            }
-            // Si para toda fila mayor que la filaDelPivot, la posicion j vale 0, se avanza a la siguiente columna
-            else if(j > 0)
-            {
-                --j;
-            }
-        }
-
-        double pivot = m(filaDelPivot, j);
-
-        // Establecido el pivot, comenzamos el algoritmo en la fila anterior
-
-        for(int i = filaDelPivot-1; i >= 0; --i)
-        {
-
-
-            double factorDeEscalaEntreFilas = m(i, j) / m(j, j);
-
-            for(int c = j; c >= 0; --c)
-            {
-                m(i, c) -= factorDeEscalaEntreFilas * m(j, c);
-            }
-
-            b(i) -= factorDeEscalaEntreFilas * b(j);
-        }
-    }
-}
-
-int buscarFilaPivotInferior(MatrixXd &m, int fila, int col)
-{
-    while(fila < m.rows() && m(fila, col) < UMBRAL_CERO)
+    while(fila < dimension && m[fila][col] < UMBRAL_CERO)
     {
         ++fila;
-    }
-
-    return fila;
-}
-
-int buscarFilaPivotSuperior(MatrixXd &m, int fila, int col)
-{
-    while(fila >= 0 && m(fila, col) < UMBRAL_CERO)
-    {
-        --fila;
     }
 
     return fila;
