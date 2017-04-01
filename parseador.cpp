@@ -2,11 +2,14 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+
+using namespace std;
+
 //mapeo la fila de el dat como un array de strings: fecha ganador gPuntos perdedor pPuntos
-std::string[] rowToArray(string line){
-	std::string[5] datos;
+vector<string> rowToArray(string line){
+	vector<string> datos;
 	int i = 0;
-	sstringstream ssin(line);
+	stringstream ssin(line);
 	while(ssin.good() && i < 4){
 		ssin >> datos[i];
 		i++;
@@ -14,7 +17,7 @@ std::string[] rowToArray(string line){
 	return datos;
 }
 
-int i busquedaIndice(std::string datos, std::vector<int> ids) {
+int busquedaIndice(string datos, vector<string> ids) {
 	int i = 0;
 	while(i < ids.size()) {
 		if (datos == ids[i]){
@@ -25,26 +28,26 @@ int i busquedaIndice(std::string datos, std::vector<int> ids) {
 	return i;
 }
 
-std::vector<vector<int> > parseadorParaTenis(){
-	fstream partidos("LOSPARTIDOSDETENIS"); //abro el .dat de los partidos de tenis TODO
-	std::string line;
+vector<vector<int> > parseadorParaTenis(){
+	fstream partidos("atp_matches_2015.dat"); //abro el .dat de los partidos de tenis TODO
+	string line;
 	int lines = 1; //lines empieza con uno pero flechita hacia abajo
-	std::vector<int> ids = ids();
+	vector<string> ids;
 
 	//hago la primera iteracion a manopla para no tener el vector de ids vacio
 	getline(partidos,line);
-	string[5] datos = rowToArray(line);
+	vector<string> datos = rowToArray(line);
 	ids.push_back(datos[1]);
 	ids.push_back(datos[3]);
 	
 	// consigo las ids
-	for(lines;std::getline(partidos,line);lines++){
-		string[5] datos = rowToArray(line);
+	for(lines;getline(partidos,line);lines++){
+		vector<string> datos = rowToArray(line);
 		
 		int i = 0;
 
 		while (i < ids.size()){
-			if (datos[1] == ids[i]){
+			if (datos[1] == ids[i] ){
 				break;
 				i++;
 			}
@@ -67,12 +70,12 @@ std::vector<vector<int> > parseadorParaTenis(){
 	}
 	partidos.clear();
 	partidos.seekg(0,ios::beg);
-	std::vector<vector<int> > victDerrt = victDerrt(ids.size(),vector<int>(2, 0));
-	std::vector<vector<int> > enfrentamientos = enfrentamientos(ids.size(),vector<int>(ids.size()), 0);
+	vector<vector<int> > victDerrt(ids.size(),vector<int>(2, 0));
+	vector<vector<int> > enfrentamientos(ids.size(),vector<int>(ids.size(), 0));
 
 	lines = 0;
-	for (lines;std::getline(partidos,line);lines++) {
-		string[5] datos = rowToArray(line);
+	for (lines;getline(partidos,line);lines++) {
+		vector<string> datos = rowToArray(line);
 		
 		int i = busquedaIndice(datos[1], ids);
 		int j = busquedaIndice(datos[3], ids);
@@ -81,4 +84,8 @@ std::vector<vector<int> > parseadorParaTenis(){
 		victDerrt[j][1]++; //derrotas
 		enfrentamientos[i][j]++;
 	}
+}
+
+int main () {
+
 }
