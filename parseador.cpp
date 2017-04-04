@@ -2,10 +2,10 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-
+#include "cmm.cpp"
 using namespace std;
 
-//mapeo la fila de el dat como un array de strings: fecha ganador gPuntos perdedor pPuntos
+//mapeo la fila del dat como un array de strings: [fecha ,ganador ,gPuntos ,perdedor,pPuntos]
 vector<string> rowToArray(string line){
 	vector<string> datos;
 	int i = 0;
@@ -18,7 +18,7 @@ vector<string> rowToArray(string line){
 }
 
 int busquedaIndice(string datos, vector<string> ids) {
-	int i = 0;
+	unsigned int i = 0;
 	while(i < ids.size()) {
 		if (datos == ids[i]){
 			break;
@@ -41,10 +41,10 @@ vector<vector<int> > parseadorParaTenis(){
 	ids.push_back(datos[3]);
 	
 	// consigo las ids
-	for(lines;getline(partidos,line);lines++){
+	for(;getline(partidos,line);lines++){
 		vector<string> datos = rowToArray(line);
 		
-		int i = 0;
+		unsigned int i = 0;
 
 		while (i < ids.size()){
 			if (datos[1] == ids[i] ){
@@ -56,7 +56,7 @@ vector<vector<int> > parseadorParaTenis(){
 			ids.push_back(datos[1]);
 		}
 
-		int j = 0;
+		unsigned int j = 0;
 
 		while(j < ids.size()){
 			if (datos[3] == ids[j]){
@@ -74,7 +74,7 @@ vector<vector<int> > parseadorParaTenis(){
 	vector<vector<int> > enfrentamientos(ids.size(),vector<int>(ids.size(), 0));
 
 	lines = 0;
-	for (lines;getline(partidos,line);lines++) {
+	for (;getline(partidos,line);lines++) {
 		vector<string> datos = rowToArray(line);
 		
 		int i = busquedaIndice(datos[1], ids);
@@ -84,8 +84,66 @@ vector<vector<int> > parseadorParaTenis(){
 		victDerrt[j][1]++; //derrotas
 		enfrentamientos[i][j]++;
 	}
+	return victDerrt; 
 }
 
 int main () {
+	fstream partidos("atp_matches_2015.dat"); //abro el .dat de los partidos de tenis TODO
+	string line;
+	int lines = 1; //lines empieza con uno pero flechita hacia abajo
+	vector<string> ids;
 
+	//hago la primera iteracion a manopla para no tener el vector de ids vacio
+	getline(partidos,line);
+	vector<string> datos = rowToArray(line);
+	ids.push_back(datos[1]);
+	ids.push_back(datos[3]);
+	
+	// consigo las ids
+	for(;getline(partidos,line);lines++){
+		vector<string> datos = rowToArray(line);
+		
+		unsigned int i = 0;
+
+		while (i < ids.size()){
+			if (datos[1] == ids[i] ){
+				break;
+				i++;
+			}
+		}
+		if (i == ids.size()){
+			ids.push_back(datos[1]);
+		}
+
+		unsigned int j = 0;
+
+		while(j < ids.size()){
+			if (datos[3] == ids[j]){
+				break;
+				j++;
+			}
+		}
+		if (j == ids.size()){
+			ids.push_back(datos[3]);
+		}
+	}
+	partidos.clear();
+	partidos.seekg(0,ios::beg);
+	vector<vector<int> > victDerrt(ids.size(),vector<int>(2, 0));
+	vector<vector<int> > enfrentamientos(ids.size(),vector<int>(ids.size(), 0));
+
+	lines = 0;
+	for (;getline(partidos,line);lines++) {
+		vector<string> datos = rowToArray(line);
+		
+		int i = busquedaIndice(datos[1], ids);
+		int j = busquedaIndice(datos[3], ids);
+
+		victDerrt[i][0]++; //victorias
+		victDerrt[j][1]++; //derrotas
+		enfrentamientos[i][j]++;
+	}
+	vector<vector<int> > cmm = CMM(victDerrt); 
+	return 0;	
 }
+

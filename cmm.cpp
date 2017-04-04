@@ -1,9 +1,11 @@
 #include <vector>
 
+using namespace std;
+
 //Toma los datos parseados como la matriz A talque A[i][j] representa la cantidad de partidos jugados entre i y j
-std::vector<vector<int> > CMM(std::vector<vector<int> > datos){
- std::vector<int> tam = datos.size();
- std::vector<vector<int> > cmm = cmm(tam,std::vector<int>(tam));
+vector<vector<int> > CMM(vector<vector<int> > datos){
+ int tam = datos.size();
+ vector<vector<int> > cmm(tam,vector<int>(tam));
  int i = 0;
  int j = 0;
  while(i < tam ){
@@ -19,6 +21,7 @@ std::vector<vector<int> > CMM(std::vector<vector<int> > datos){
   }
   i++;
  }
+ return cmm;
 }
 
 
