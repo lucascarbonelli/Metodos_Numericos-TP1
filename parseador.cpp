@@ -7,11 +7,12 @@ using namespace std;
 
 //mapeo la fila del dat como un array de strings: [fecha ,ganador ,gPuntos ,perdedor,pPuntos]
 vector<string> rowToArray(string line){
-	vector<string> datos;
+	vector<string> datos(5);
 	int i = 0;
 	stringstream ssin(line);
-	while(ssin.good() && i < 4){
+	while(ssin.good() && i < 5){
 		ssin >> datos[i];
+	
 		i++;
 	}
 	return datos;
@@ -88,40 +89,38 @@ vector<vector<int> > parseadorParaTenis(){
 }
 
 int main () {
-	fstream partidos("atp_matches_2015.dat"); //abro el .dat de los partidos de tenis TODO
+	fstream partidos("./data/atp_matches_2015.dat"); //abro el .dat de los partidos de tenis TODO
 	string line;
 	int lines = 1; //lines empieza con uno pero flechita hacia abajo
 	vector<string> ids;
-
+	
 	//hago la primera iteracion a manopla para no tener el vector de ids vacio
 	getline(partidos,line);
 	vector<string> datos = rowToArray(line);
 	ids.push_back(datos[1]);
 	ids.push_back(datos[3]);
-	
 	// consigo las ids
 	for(;getline(partidos,line);lines++){
 		vector<string> datos = rowToArray(line);
 		
 		unsigned int i = 0;
-
 		while (i < ids.size()){
 			if (datos[1] == ids[i] ){
 				break;
-				i++;
 			}
+			i++;
 		}
 		if (i == ids.size()){
 			ids.push_back(datos[1]);
 		}
-
+		
 		unsigned int j = 0;
 
 		while(j < ids.size()){
 			if (datos[3] == ids[j]){
 				break;
-				j++;
 			}
+			j++;
 		}
 		if (j == ids.size()){
 			ids.push_back(datos[3]);
@@ -143,7 +142,8 @@ int main () {
 		victDerrt[j][1]++; //derrotas
 		enfrentamientos[i][j]++;
 	}
-	vector<vector<int> > cmm = CMM(victDerrt); 
+	vector<vector<int> > cmm = CMM(victDerrt);
+       	
 	return 0;	
 }
 
