@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include "cmm.cpp"
+
 using namespace std;
 
 //mapeo la fila del dat como un array de strings: [fecha ,ganador ,gPuntos ,perdedor,pPuntos]
@@ -11,8 +11,7 @@ vector<string> rowToArray(string line){
 	int i = 0;
 	stringstream ssin(line);
 	while(ssin.good() && i < 5){
-		ssin >> datos[i];
-	
+		ssin >> datos[i];	
 		i++;
 	}
 	return datos;
@@ -29,21 +28,15 @@ int busquedaIndice(string datos, vector<string> ids) {
 	return i;
 }
 
+void parseador(const char* f, vector<vector<int> >& enfrentamientos, vector<vector<int> >& victDerrt){
+    std::ifstream partidos(f);
+	std::string line;
+    vector<string> ids;
 
+	// la primera linea del archivo no es un enfrentamiento
+    getline(partidos, line);
 
-int main () {
-	fstream partidos("./data/atp_matches_2015.dat"); //abro el .dat de los partidos de tenis TODO
-	string line;
-	int lines = 1; //lines empieza con uno pero flechita hacia abajo
-	vector<string> ids;
-	
-	//hago la primera iteracion a manopla para no tener el vector de ids vacio
-	getline(partidos,line);
-	vector<string> datos = rowToArray(line);
-	ids.push_back(datos[1]);
-	ids.push_back(datos[3]);
-	// consigo las ids
-	for(;getline(partidos,line);lines++){
+	while(getline(partidos, line)){
 		vector<string> datos = rowToArray(line);
 		
 		unsigned int i = 0;
@@ -58,7 +51,6 @@ int main () {
 		}
 		
 		unsigned int j = 0;
-
 		while(j < ids.size()){
 			if (datos[3] == ids[j]){
 				break;
@@ -69,28 +61,32 @@ int main () {
 			ids.push_back(datos[3]);
 		}
 	}
-	partidos.clear();
-	partidos.seekg(0,ios::beg);
-	vector<vector<int> > victDerrt(ids.size(),vector<int>(2, 0));
-	vector<vector<int> > enfrentamientos(ids.size(),vector<int>(ids.size(), 0));
 
-	lines = 0;
-	for (;getline(partidos,line);lines++) {
+	// volver al principio del archivo
+    partidos.clear();
+    partidos.seekg(0);
+    getline(partidos, line);
+    
+    // La matriz enfren es de N*N, simetrica, la posicion i,j es la cantidad de
+    // que hubo entre el jugador i y el jugador j
+    // vicDer es una matriz de N*2, (i,1) es la cantidad de victorias del jugador i
+    // (i,2) es la cantidad de derrotas del jugador i
+	vector<vector<int> > vicDer(ids.size(),vector<int>(2, 0));
+	vector<vector<int> > enfren(ids.size(),vector<int>(ids.size(), 0));
+
+	while(getline(partidos,line)) {
 		vector<string> datos = rowToArray(line);
 		int i = busquedaIndice(datos[1], ids);
 		int j = busquedaIndice(datos[3], ids);
 
-		victDerrt[i][0]++; //victorias
-		victDerrt[j][1]++; //derrotas
-		enfrentamientos[i][j]++;
+		vicDer[i][0]++; //victorias
+		vicDer[j][1]++; //derrotas
+		enfren[i][j]++;
+        enfren[j][i]++;
 	}
 
-	for(unsigned int i = 0;i < ids.size();i++){
-		enfrentamientos[i][i] = victDerrt[i][0] + victDerrt[i][1];
-	}
+    enfrentamientos = enfren;
+    victDerrt = vicDer;
 
-	vector<vector<int> > cmm = CMM(enfrentamientos);
-        
-	return 0;	
+    partidos.close();
 }
-
