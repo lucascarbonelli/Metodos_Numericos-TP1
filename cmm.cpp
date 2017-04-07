@@ -3,9 +3,9 @@
 using namespace std;
 
 //Toma los datos parseados como la matriz A talque A[i][j] representa la cantidad de partidos jugados entre i y j
-vector<vector<int> > CMM(vector<vector<int> > datos){
+vector<vector<double> > CMM(vector<vector<double> > datos){
 	int tam = datos.size();
-	vector<vector<int> > cmm(tam,vector<int>(tam,0));
+	vector<vector<double> > cmm(tam,vector<double>(tam,0));
 	int i = 0;
 	int j = 0;
 	while(i < tam ){

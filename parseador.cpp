@@ -28,7 +28,7 @@ int busquedaIndice(string datos, vector<string> ids) {
 	return i;
 }
 
-void parseador(const char* f, vector<vector<int> >& enfrentamientos, vector<vector<int> >& victDerrt){
+void parseador(const char* f, vector<vector<double> >& enfrentamientos, vector<vector<int> >& victDerrt){
     std::ifstream partidos(f);
 	std::string line;
     vector<string> ids;
@@ -72,7 +72,7 @@ void parseador(const char* f, vector<vector<int> >& enfrentamientos, vector<vect
     // vicDer es una matriz de N*2, (i,1) es la cantidad de victorias del jugador i
     // (i,2) es la cantidad de derrotas del jugador i
 	vector<vector<int> > vicDer(ids.size(),vector<int>(2, 0));
-	vector<vector<int> > enfren(ids.size(),vector<int>(ids.size(), 0));
+	vector<vector<double> > enfren(ids.size(),vector<double>(ids.size(), 0.0));
 
 	while(getline(partidos,line)) {
 		vector<string> datos = rowToArray(line);

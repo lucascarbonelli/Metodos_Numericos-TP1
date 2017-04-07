@@ -6,7 +6,7 @@ int main () {
     const char* filePath = "./data/atp_matches_2015.dat";
 
 	vector<vector<int> > victoriasDerrotas;
-	vector<vector<int> > matrizEnfrentamientos;
+	vector<vector<double> > matrizEnfrentamientos;
 
     parseador(filePath, matrizEnfrentamientos, victoriasDerrotas);
 
@@ -20,7 +20,7 @@ int main () {
 		std::cout << std::endl;
 	}
         
-    vector<vector<int> > cmm = CMM(matrizEnfrentamientos);
+    vector<vector<double> > cmm = CMM(matrizEnfrentamientos);
 
 	return 0;	
 }
