@@ -1,0 +1,11 @@
+# parametro1 archivo de entrada
+# parametro2 archivo de salida
+# parametro3 metodo
+#
+# metodos: 
+#   0.CMM_gauss
+#   1.CMM_cholesky
+#   3.CMM
+#   default.matriz_de_enfrentamientos
+
+./main ./data/atp_matches_2015.dat matriz.txt 0
