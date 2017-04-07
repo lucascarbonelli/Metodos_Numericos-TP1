@@ -44,7 +44,7 @@ vector< vector < double > > cholesky(vector< vector< double > > A, int filas, in
 	return L;
 }
 
-int main() {
+//int main() {
 //pruebas
 /*vector < vector < double > > m;
 m.resize(3);
@@ -74,4 +74,4 @@ for (int i = 0; i < 3; ++i)
 	cout << endl;
 }*/
 
-}
+//}

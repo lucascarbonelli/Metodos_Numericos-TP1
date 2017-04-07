@@ -24,4 +24,10 @@ vector<vector<double> > CMM(vector<vector<double> > datos){
 	return cmm;
 }
 
-
+vector<double> CMMb(vector<vector<int> > victoriasDerrotas){
+	vector<double> b(victoriasDerrotas.size());
+	for(int i = 0; i < victoriasDerrotas.size(); ++i){
+		b[i] = 1 + (victoriasDerrotas[i][0] - victoriasDerrotas[i][1]) / 2;
+	}
+	return b;
+}
