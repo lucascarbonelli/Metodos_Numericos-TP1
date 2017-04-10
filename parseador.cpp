@@ -85,6 +85,10 @@ void parseador(const char* f, vector<vector<double> >& enfrentamientos, vector<v
         enfren[j][i]++;
 	}
 
+	for(int i = 0; i < ids.size(); ++i){
+		enfren[i][i] = vicDer[i][0] + vicDer[i][1];
+	}
+
     enfrentamientos = enfren;
     victDerrt = vicDer;
 
