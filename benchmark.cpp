@@ -1,9 +1,3 @@
-//recopilador de estadisticas
-
-//tomo matrices, corro cada una una cantidad N de veces, devuelvo suma(tiempos)/cantidad matrices -> en txt: probemos con el caso de 10 mat de 4x4 y 5 corr
-
-//para mayor transparencia: dejamos la dim fija por cada ejecución de este script, quiza puede escribir en el mismo txt igual...
-
 #include <iostream>
 #include <vector>
 #include <stdlib.h>     /* srand, rand */
