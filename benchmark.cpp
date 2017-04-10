@@ -8,6 +8,7 @@
 
 using namespace std;
 
+//Benchmark devuelve el promedio del metodo pasado ejecutado sobre una cantidad cant de matrices de dimensión dimension
 double benchmark(int dimension, int cant, int metodo) {
 	vector<vector<double> > matrices [cant];
 	vector<double> b(dimension, 1.0);
@@ -44,14 +45,15 @@ double benchmark(int dimension, int cant, int metodo) {
 	return promedio;
 }
 
-vector<double > tiempos(int total, int base, int cant, int metodo) {
-	vector< double > vectorTiempos(total, 0.0);
+//vectorTiempos sirve para utilizar benchmark sobre muchas matrices de distintas dimensiones, y devolver en un vector los promedios
+vector<double > vectorTiempos(int total, int base, int cant, int metodo) {
+	vector< double > tiempos(total, 0.0);
 	for (int i = 1; i < total+1; ++i)
 	{
 		int dimension = pow(base,i);
-		vectorTiempos[i] = benchmark(dimension, cant, metodo);
+		tiempos[i] = benchmark(dimension, cant, metodo);
 	}
-	return vectorTiempos;
+	return tiempos;
 }
 
 
@@ -69,11 +71,11 @@ int main () {
 	int metodo;
 	cin >> metodo; cout << endl;
 
-	vector< double > vectorTiempos = tiempos(total, base, cant, metodo);
+	vector< double > tiempos = vectorTiempos(total, base, cant, metodo);
 
 	for (int i = 0; i < total; ++i)
 	{
-		cout << vectorTiempos[i] << " ";
+		cout << tiempos[i] << " ";
 	}
 
 	return 0;
