@@ -13,16 +13,10 @@ vector<vector<double> > generarSDP(int dimension){
     srand (time(NULL));
 
     // matriz random
-    for(int i = 0; i < dimension; ++i){
-        for(int j = 0; j < dimension; ++j){
-            matrizSDP[i][j] = ((double) rand() / (RAND_MAX));
-        }
-    }
-
     // matriz simetrica
     for(int i = 1; i < dimension; ++i){
         for(int j = 0; j < i; ++j){
-            double sij = (matrizSDP[i][j] + matrizSDP[j][i]) / 2;
+            double sij = ((double) rand() / (RAND_MAX));
             matrizSDP[i][j] = sij;
             matrizSDP[j][i] = sij;
         }
@@ -30,7 +24,7 @@ vector<vector<double> > generarSDP(int dimension){
 
     // matriz simetrica definida positiva
     for(int i = 0; i < dimension; ++i){
-        matrizSDP[i][i] += dimension;
+        matrizSDP[i][i] = ((double) rand() / (RAND_MAX)) + dimension;
     }
 
     return matrizSDP;
