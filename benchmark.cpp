@@ -48,9 +48,9 @@ double benchmark(int dimension, int cant, int metodo) {
 //vectorTiempos sirve para utilizar benchmark sobre muchas matrices de distintas dimensiones, y devolver en un vector los promedios
 vector<double > vectorTiempos(int total, int base, int cant, int metodo) {
 	vector< double > tiempos(total, 0.0);
-	for (int i = 1; i < total+1; ++i)
+	for (int i = 0; i < total; ++i)
 	{
-		int dimension = pow(base,i);
+		int dimension = pow(base,i+1);
 		tiempos[i] = benchmark(dimension, cant, metodo);
 	}
 	return tiempos;
