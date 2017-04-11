@@ -67,7 +67,7 @@ int main () {
 	cout << "Ingrese cantidad de matrices por base:" << endl; //la cantidad de matrices por dimensión, para hacer un promedio por dimensión
 	int cant;
 	cin >> cant; cout << endl;
-	cout << "Ingrese el tipo de método (1 gauss, 2 cholesky):" << endl;
+	cout << "Ingrese el tipo de método (0 gauss, 1 cholesky):" << endl;
 	int metodo;
 	cin >> metodo; cout << endl;
 
@@ -77,6 +77,7 @@ int main () {
 	{
 		cout << tiempos[i] << " ";
 	}
+	cout << endl;
 
 	return 0;
 
