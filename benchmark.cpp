@@ -48,11 +48,13 @@ double benchmark(int dimension, int cant, int metodo) {
 }
 
 //vectorTiempos sirve para utilizar benchmark sobre muchas matrices de distintas dimensiones, y devolver en un vector los promedios
-vector<double > vectorTiempos(int total, int cant, int metodo) {
+vector<double > vectorTiempos(int total, int cant, int metodo, int opcion, int base) {
 	vector< double > tiempos(total, 0.0);
 	for (int i = 0; i < total; ++i)
 	{
-		int dimension = i + 2;
+		int dimension;
+		if (opcion == 0) {dimension = pow(i+2, base);}
+		if (opcion == 1) {dimension = i + 2;}
 		tiempos[i] = benchmark(dimension, cant, metodo);
 	}
 	return tiempos;
@@ -60,20 +62,29 @@ vector<double > vectorTiempos(int total, int cant, int metodo) {
 
 
 int main (int argc, char** argv) {
-	if (argc != 6)
+	if (argc != 8)
 	{
-		cout << "El programa necesita 5 argumentos:" << endl;
-		cout << "main [path_salida] [nombre_del_output] [cantidad_total_de_matrices] [cantidad_por_dimensión] [número_de_método]" << endl;
+		cout << "El programa necesita 7 argumentos:" << endl;
+		cout << "main [path_salida] [nombre_del_output] [cantidad_total_de_matrices] [cantidad_por_dimensión] [número_de_método] [base_o_corrido] [base]" << endl;
 		cout << "Métodos disponibles:" << endl;
 		cout << "0 Gauss" << endl;
 		cout << "1 Cholesky" << endl;
+		cout << "Opciones:" << endl;
+		cout << "0 matrices con dimension base^i, con 2<i<cantidad_total_de_matrices+2" << endl;
+		cout << "1 matrices con dimension i, con 2<i<cantidad_total_de_matrices+2" << endl;
+		cout << endl;
 	}
+
+	cout << "AVISO: si elegiste base, tenes en cuenta que si cantidad_total_de_matrices = 10, va a calcular matrices de 2^10x2^10, es decir" << endl;
+	cout << "si elegiste cantidad_total_de_matrices = 1000, va a calcular matrices de 2^1000x2^1000, no va a terminar NUNCA." << endl;
 
 	const char* outputPath = argv[1];
 	const char* nombreTxt = argv[2];
 	const char* totalMatStr = argv[3];
 	const char* cantidadXDimStr = argv[4];
 	const char* numMetodoStr = argv[5];
+	const char* opcionStr = argv[6];
+	const char* baseStr = argv[7];
 
 	int totalMat;
 	stringstream ssTotalMat(totalMatStr);
@@ -87,7 +98,15 @@ int main (int argc, char** argv) {
 	stringstream ssNumMetodo(numMetodoStr);
 	ssNumMetodo >> numMetodo;
 
-	vector< double > tiempos = vectorTiempos(totalMat, cantidadXDim, numMetodo);
+	int opcion;
+	stringstream ssOpcionStr(opcionStr);
+	ssOpcionStr >> opcion;
+
+	int base;
+	stringstream ssBaseStr(baseStr);
+	ssBaseStr >> base;
+
+	vector< double > tiempos = vectorTiempos(totalMat, cantidadXDim, numMetodo, opcion, base);
 
 
 	ofstream tiemposTexto(outputPath);
