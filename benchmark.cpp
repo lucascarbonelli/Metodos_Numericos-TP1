@@ -75,8 +75,8 @@ int main (int argc, char** argv) {
 		cout << endl;
 	}
 
-	cout << "AVISO: si elegiste base, tenes en cuenta que si cantidad_total_de_matrices = 10, va a calcular matrices de 2^10x2^10, es decir" << endl;
-	cout << "si elegiste cantidad_total_de_matrices = 1000, va a calcular matrices de 2^1000x2^1000, no va a terminar NUNCA." << endl;
+	cout << "AVISO: si elegiste base, tenes en cuenta que si cantidad_total_de_matrices = 10, va a calcular matrices de base^10xbase^10, es decir" << endl;
+	cout << "si elegiste cantidad_total_de_matrices = 1000, va a calcular matrices de base^1000xbase^1000, no va a terminar NUNCA." << endl;
 
 	const char* outputPath = argv[1];
 	const char* nombreTxt = argv[2];
