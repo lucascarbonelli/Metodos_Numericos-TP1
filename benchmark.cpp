@@ -31,17 +31,17 @@ double benchmark(int dimension, int cant, int metodo) {
 			start = clock();
 			eliminacionGaussiana(matrices[i], b);
 			end = clock();
-			t = ((double)(end - start)) / CLOCKS_PER_SEC;
+			t = (((double)(end - start)) / CLOCKS_PER_SEC) * 1000;
 		}
 		if (metodo == 1) {
 			start = clock();
 			cholesky(matrices[i], dimension);
 			end = clock();
-			t = ((double)(end - start)) / CLOCKS_PER_SEC;
+			t = (((double)(end - start)) / CLOCKS_PER_SEC) *  1000;
 		}
 		tiempos += t;
 	}
-	tiempos = tiempos/1000; //paso los milisegundos a segundos
+	tiempos = tiempos; //paso los milisegundos a segundos
 	double promedio = tiempos/cant; //calculo el promedio
 
 	return promedio;
