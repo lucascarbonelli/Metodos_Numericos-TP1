@@ -45,7 +45,7 @@ void eliminacionGaussiana(vector<vector<double> > &A, vector<double> &b)
         // Se analiza el caso en el que el pivot "es cero"
         // Se asume que el sistema tiene solucion y es unica
         // Si para toda fila menor que filaDelPivot, la posicion j vale 0, el algoritmo falla estrepitosamente
-        while(abs(A[filaDelPivot][j]) > 0 && filaDelPivot < dimension)
+        while(abs(A[filaDelPivot][j]) < UMBRAL_CERO && filaDelPivot < dimension)
         {
             int filaSwap = buscarFilaPivotInferior(A, filaDelPivot+1, j);
             if(filaSwap < dimension)
@@ -90,7 +90,7 @@ void eliminacionGaussiana(vector<vector<double> > &A, vector<double> &b)
 int buscarFilaPivotInferior(const vector<vector<double> > &A, int fila, int col)
 {
     int dimension = A.size();
-    while(fila < dimension && A[fila][col] > 0)
+    while(fila < dimension && A[fila][col] < UMBRAL_CERO)
     {
         ++fila;
     }
