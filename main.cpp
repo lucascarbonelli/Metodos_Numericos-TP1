@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <algorithm>
 #include "parseador.cpp"
 #include "metodos.cpp"
 
@@ -43,9 +44,7 @@ int main (int argc, char** argv) {
 			A = cmm_A(matrizEnfrentamientos); //A es U, triangular con Gauss
 			b = cmm_b(victoriasDerrotas);
 			eliminacionGaussiana(A, b);
-			cout << "llegue aca" << endl;
 			ranking = resolverTriangularSuperior(A, b);
-			cout << "aca tambien" << endl;
 			break;
 		}
 		case 1:
@@ -87,6 +86,7 @@ int main (int argc, char** argv) {
 	}
 */
 
+	sort(ranking.begin(), ranking.end());
 	//Guardar los rankings
 	for (int i = 0; i < n - 1; ++i)
 	{
