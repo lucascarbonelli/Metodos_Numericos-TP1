@@ -5,6 +5,8 @@
 #include "sdp.cpp"
 #include "metodos.cpp"
 #include <math.h>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -46,38 +48,57 @@ double benchmark(int dimension, int cant, int metodo) {
 }
 
 //vectorTiempos sirve para utilizar benchmark sobre muchas matrices de distintas dimensiones, y devolver en un vector los promedios
-vector<double > vectorTiempos(int total, int base, int cant, int metodo) {
+vector<double > vectorTiempos(int total, int cant, int metodo) {
 	vector< double > tiempos(total, 0.0);
 	for (int i = 0; i < total; ++i)
 	{
-		int dimension = pow(base,i+1);
+		int dimension = i + 2;
 		tiempos[i] = benchmark(dimension, cant, metodo);
 	}
 	return tiempos;
 }
 
 
-int main () {
-	cout << "Ingrese el total de matrices: " << endl; //es decir, si pongo 6, va a haber una de dim base, una de dim base^2, una de dim base^3, y asi...
-	int total;
-	cin >> total; cout << endl;
-	cout << "Ingrese la base deseada: " << endl; //la base que voy a elevar para conseguir cada dimensión
-	int base;
-	cin >> base; cout << endl;
-	cout << "Ingrese cantidad de matrices por base:" << endl; //la cantidad de matrices por dimensión, para hacer un promedio por dimensión
-	int cant;
-	cin >> cant; cout << endl;
-	cout << "Ingrese el tipo de método (0 gauss, 1 cholesky):" << endl;
-	int metodo;
-	cin >> metodo; cout << endl;
-
-	vector< double > tiempos = vectorTiempos(total, base, cant, metodo);
-
-	for (int i = 0; i < total; ++i)
+int main (int argc, char** argv) {
+	if (argc != 4)
 	{
-		cout << tiempos[i] << " ";
+		cout << "El programa necesita 4 argumentos:" << endl;
+		cout << "main [path_salida] [cantidad_total_de_matrices] [cantidad_por_dimensión] [número_de_método]" << endl;
+		cout << "Métodos disponibles:" << endl;
+		cout << "0 Gauss" << endl;
+		cout << "1 Cholesky" << endl;
 	}
-	cout << endl;
+
+	const char* outputPath = argv[1];
+	const char* totalMatStr = argv[2];
+	const char* cantidadXDimStr = argv[3];
+	const char* numMetodoStr = argv[4];
+
+	int totalMat;
+	stringstream ssTotalMat(totalMatStr);
+	ssTotalMat >> totalMat;
+
+	int cantidadXDim;
+	stringstream ssCantidadXDim(cantidadXDimStr);
+	ssCantidadXDim >> cantidadXDim;
+
+	int numMetodo;
+	stringstream ssNumMetodo(numMetodoStr);
+	ssNumMetodo >> numMetodo;
+
+	vector< double > tiempos = vectorTiempos(totalMat, cantidadXDim, numMetodo);
+
+
+	ofstream tiemposTexto(outputPath);
+	tiemposTexto.open("tiemposGuardados.txt");
+
+	for (int i = 0; i < totalMat - 1; ++i)
+	{
+		tiemposTexto << tiempos[i] << endl;
+	}
+	tiemposTexto << tiempos[totalMat - 1]; //así no hay un endl de mas...
+
+	tiemposTexto.close();
 
 	return 0;
 
