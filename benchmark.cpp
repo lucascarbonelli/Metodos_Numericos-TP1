@@ -48,12 +48,12 @@ double benchmark(int dimension, int cant, int metodo) {
 }
 
 //vectorTiempos sirve para utilizar benchmark sobre muchas matrices de distintas dimensiones, y devolver en un vector los promedios
-vector<double > vectorTiempos(int total, int cant, int metodo, int opcion, int exponente) {
+vector<double > vectorTiempos(int total, int cant, int metodo, int opcion, int base) {
 	vector< double > tiempos(total, 0.0);
 	for (int i = 0; i < total; ++i)
 	{
 		int dimension;
-		if (opcion == 0) {dimension = pow(i+2, exponente);}
+		if (opcion == 0) {dimension = pow(base, i+1);}
 		if (opcion == 1) {dimension = i + 2;}
 		tiempos[i] = benchmark(dimension, cant, metodo);
 	}
@@ -65,18 +65,18 @@ int main (int argc, char** argv) {
 	if (argc != 8)
 	{
 		cout << "El programa necesita 7 argumentos:" << endl;
-		cout << "main [path_salida] [nombre_del_output] [cantidad_total_de_matrices] [cantidad_por_dimensión] [número_de_método] [exponente_o_corrido] [exponente]" << endl;
+		cout << "main [path_salida] [nombre_del_output] [cantidad_total_de_matrices] [cantidad_por_dimensión] [número_de_método] [base_o_corrido] [base]" << endl;
 		cout << "Métodos disponibles:" << endl;
 		cout << "0 Gauss" << endl;
 		cout << "1 Cholesky" << endl;
 		cout << "Opciones:" << endl;
-		cout << "0 matrices con dimension exponente^i, con 2<i<cantidad_total_de_matrices+2" << endl;
+		cout << "0 matrices con dimension base^i, con 2<i<cantidad_total_de_matrices+2" << endl;
 		cout << "1 matrices con dimension i, con 2<i<cantidad_total_de_matrices+2" << endl;
 		cout << endl;
 	}
 
-	cout << "AVISO: si elegiste exponente, tenes en cuenta que si cantidad_total_de_matrices = 10, va a calcular matrices de exponente^10xexponente^10, es decir" << endl;
-	cout << "si elegiste cantidad_total_de_matrices = 1000, va a calcular matrices de exponente^1000xexponente^1000, no va a terminar NUNCA." << endl;
+	cout << "AVISO: si elegiste base, tenes en cuenta que si cantidad_total_de_matrices = 10, va a calcular matrices de base^10xbase^10, es decir" << endl;
+	cout << "si elegiste cantidad_total_de_matrices = 1000, va a calcular matrices de base^1000xbase^1000, no va a terminar NUNCA." << endl;
 
 	const char* outputPath = argv[1];
 	const char* nombreTxt = argv[2];
@@ -84,7 +84,7 @@ int main (int argc, char** argv) {
 	const char* cantidadXDimStr = argv[4];
 	const char* numMetodoStr = argv[5];
 	const char* opcionStr = argv[6];
-	const char* exponenteStr = argv[7];
+	const char* baseStr = argv[7];
 
 	int totalMat;
 	stringstream ssTotalMat(totalMatStr);
@@ -102,11 +102,11 @@ int main (int argc, char** argv) {
 	stringstream ssOpcionStr(opcionStr);
 	ssOpcionStr >> opcion;
 
-	int exponente;
-	stringstream ssexponenteStr(exponenteStr);
-	ssexponenteStr >> exponente;
+	int base;
+	stringstream ssBaseStr(baseStr);
+	ssBaseStr >> base;
 
-	vector< double > tiempos = vectorTiempos(totalMat, cantidadXDim, numMetodo, opcion, exponente);
+	vector< double > tiempos = vectorTiempos(totalMat, cantidadXDim, numMetodo, opcion, base);
 
 
 	ofstream tiemposTexto(outputPath);
