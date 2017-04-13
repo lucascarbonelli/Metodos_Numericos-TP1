@@ -85,8 +85,9 @@ void eliminacionGaussiana(vector<vector<double> > &A, vector<double> &b)
         for(int i = filaDelPivot+1 ; i < dimension; ++i)
         {
             double factorDeEscalaEntreFilas = A[i][j] / pivot;
+			A[i][j] = 0.0;
 
-            for(int c = j; c < dimension; ++c)
+            for(int c = j+1; c < dimension; ++c)
             {
                 A[i][c] -= factorDeEscalaEntreFilas * A[j][c];
             }
@@ -94,6 +95,7 @@ void eliminacionGaussiana(vector<vector<double> > &A, vector<double> &b)
             b[i] -= factorDeEscalaEntreFilas * b[j];
         }
     }
+	/*
     // Piso con cero debajo de la diagonal, por si quedo algun número muy pequeño que debía ser cero
     for (int i = 0; i < dimension; ++i)
     {
@@ -105,6 +107,7 @@ void eliminacionGaussiana(vector<vector<double> > &A, vector<double> &b)
     		}
     	}
     }
+	*/
 }
 
 
