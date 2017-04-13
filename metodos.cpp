@@ -93,6 +93,17 @@ void eliminacionGaussiana(vector<vector<double> > &A, vector<double> &b)
             b[i] -= factorDeEscalaEntreFilas * b[j];
         }
     }
+    // Piso con cero debajo de la diagonal, por si quedo algun número muy pequeño que debía ser cero
+    for (int i = 0; i < dimension; ++i)
+    {
+    	for (int j = 0; j < dimension; ++j)
+    	{
+    		if (i>j)
+    		{
+    			A[i][j] = 0.0;
+    		}
+    	}
+    }
 }
 
 
