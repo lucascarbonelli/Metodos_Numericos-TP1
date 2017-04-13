@@ -60,19 +60,20 @@ vector<double > vectorTiempos(int total, int cant, int metodo) {
 
 
 int main (int argc, char** argv) {
-	if (argc != 4)
+	if (argc != 6)
 	{
-		cout << "El programa necesita 4 argumentos:" << endl;
-		cout << "main [path_salida] [cantidad_total_de_matrices] [cantidad_por_dimensión] [número_de_método]" << endl;
+		cout << "El programa necesita 5 argumentos:" << endl;
+		cout << "main [path_salida] [nombre_del_output] [cantidad_total_de_matrices] [cantidad_por_dimensión] [número_de_método]" << endl;
 		cout << "Métodos disponibles:" << endl;
 		cout << "0 Gauss" << endl;
 		cout << "1 Cholesky" << endl;
 	}
 
 	const char* outputPath = argv[1];
-	const char* totalMatStr = argv[2];
-	const char* cantidadXDimStr = argv[3];
-	const char* numMetodoStr = argv[4];
+	const char* nombreTxt = argv[2];
+	const char* totalMatStr = argv[3];
+	const char* cantidadXDimStr = argv[4];
+	const char* numMetodoStr = argv[5];
 
 	int totalMat;
 	stringstream ssTotalMat(totalMatStr);
@@ -90,7 +91,7 @@ int main (int argc, char** argv) {
 
 
 	ofstream tiemposTexto(outputPath);
-	tiemposTexto.open("tiemposGuardados.txt");
+	tiemposTexto.open(nombreTxt);
 
 	for (int i = 0; i < totalMat - 1; ++i)
 	{
