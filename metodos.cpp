@@ -22,6 +22,8 @@ vector<vector<double> > cholesky(const vector<vector<double> >& A, int dimension
 vector<double> resolverTriangularSuperior(vector<vector<double> >& A, vector<double>& b);
 vector<double> resolverTriangularInferior(vector<vector<double> >& A, vector<double>& b);
 vector< vector<double> > transponer(vector< vector<double> > & A);
+//Winning Percentage
+vector<double> WinningPercentage(vector<vector<int> > victoriasDerrotas);
 
 
 // Metodo de Colley
@@ -233,4 +235,13 @@ vector< vector<double> > transponer(vector< vector<double> > & A) {
 		}
 	}
 	return At;
+}
+
+//Winning Percentage
+vector<double> WinningPercentage(vector<vector<int> > victoriasDerrotas) {
+  vector<double> b(victoriasDerrotas.size());
+  for(int i = 0; i < int(victoriasDerrotas.size()); ++i){
+    b[i] = (double(victoriasDerrotas[i][0])/(victoriasDerrotas[i][0]+victoriasDerrotas[i][1]));
+  }
+  return b;
 }

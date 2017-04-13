@@ -59,6 +59,10 @@ int main (int argc, char** argv) {
 			ranking = resolverTriangularSuperior(A, y);
 			break;
 		}
+		case 2:
+		{
+			ranking = WinningPercentage(victoriasDerrotas);
+		}
 		case 3:
 		{
 			A = cmm_A(matrizEnfrentamientos);
