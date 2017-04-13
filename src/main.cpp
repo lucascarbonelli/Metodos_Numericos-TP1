@@ -1,5 +1,3 @@
-#include <vector>
-#include <iostream>
 #include <algorithm>
 #include "parseador.cpp"
 #include "metodos.cpp"
