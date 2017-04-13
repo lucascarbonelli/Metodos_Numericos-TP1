@@ -31,7 +31,7 @@ double benchmark(int dimension, int cant, int metodo) {
 			start = clock();
 			eliminacionGaussiana(matrices[i], b);
 			end = clock();
-			t = (((double)(end - start)) / CLOCKS_PER_SEC) * 1000;
+			t = (((double)(end - start)) / CLOCKS_PER_SEC) * 1000; //dejo todo en milisegundos, para que no salte notación cientifica
 		}
 		if (metodo == 1) {
 			start = clock();
@@ -41,7 +41,7 @@ double benchmark(int dimension, int cant, int metodo) {
 		}
 		tiempos += t;
 	}
-	tiempos = tiempos; //paso los milisegundos a segundos
+	tiempos = tiempos;
 	double promedio = tiempos/cant; //calculo el promedio
 
 	return promedio;
