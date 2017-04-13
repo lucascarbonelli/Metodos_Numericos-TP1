@@ -1,15 +1,15 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
-#include "parseador.cpp"
-#include "metodos.cpp"
+#include "parseador.h"
+#include "metodos.h"
 
 using namespace std;
 
 int main (int argc, char** argv) {
-	if(argc != 5){
+	if(argc != 4){
 		cout << "El programa necesita 3 argumentos:" << endl;
-		cout << "main [path_datos_de_entrada] [path_salida] [nombre_texto] [numero_de_metodo]" << endl;
+		cout << "main [path_datos_de_entrada] [path_salida] [numero_de_metodo]" << endl;
 		cout << "Metodos disponibles:" << endl;
 		cout << "0 CMM-EG" << endl;
 		cout << "1 CMM-CL" << endl;
@@ -20,8 +20,7 @@ int main (int argc, char** argv) {
 
 	const char* inputPath = argv[1];
 	const char* outputPath = argv[2];
-	const char* nombreTxt = argv[3];
-	const char* numMetodoStr = argv[4];
+	const char* numMetodoStr = argv[3];
 
 	int numMetodo;
 	stringstream ssNumMetodo(numMetodoStr);
@@ -79,7 +78,6 @@ int main (int argc, char** argv) {
 
 
 	ofstream matrizSalida(outputPath);
-	matrizSalida.open(nombreTxt);
 /*
     // Mostrar matriz A y vector b
 	for(unsigned int i = 0; i < n; ++i){
