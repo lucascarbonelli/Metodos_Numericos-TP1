@@ -21,6 +21,7 @@ vector<vector<double> > cholesky(const vector<vector<double> >& A, int dimension
 // Resolucion de matrices triangulares
 vector<double> resolverTriangularSuperior(vector<vector<double> >& A, vector<double>& b);
 vector<double> resolverTriangularInferior(vector<vector<double> >& A, vector<double>& b);
+vector< vector<double> > transponer(vector< vector<double> > & A);
 
 
 // Metodo de Colley
@@ -186,7 +187,6 @@ vector<double> resolverTriangularSuperior(vector<vector<double> >& A, vector<dou
 {
     int dimension = A.size();
     vector<double> x(dimension, 0.0);
-
     // Se resuelve el sistema desde la ultima fila(en la cual todos los coeficientes son cero menos uno) hacia arriba
     for(int i = dimension - 1; i >= 0; --i)
     {
@@ -197,6 +197,7 @@ vector<double> resolverTriangularSuperior(vector<vector<double> >& A, vector<dou
         }
 		x[i] = (b[i] - resultadoParcial) / A[i][i];
     }
+    return x;
 }
 
 
@@ -215,4 +216,18 @@ vector<double> resolverTriangularInferior(vector<vector<double> >& A, vector<dou
         }
 		x[i] = (b[i] - resultadoParcial) / A[i][i];
     }
+    return x;
+}
+
+vector< vector<double> > transponer(vector< vector<double> > & A) {
+	int dimension = A.size();
+	vector<vector<double> > At(dimension, vector<double>(dimension, 0.0));
+	for (int i = 0; i < dimension; ++i)
+	{
+		for (int j = 0; j < dimension; ++j)
+		{
+			At[i,j] = A[j,i];
+		}
+	}
+	return At;
 }
