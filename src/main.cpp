@@ -88,7 +88,7 @@ int main (int argc, char** argv) {
 	}
 */
 
-	sort(ranking.begin(), ranking.end());
+	//sort(ranking.begin(), ranking.end());
 	//Guardar los rankings
 	for (int i = 0; i < n - 1; ++i)
 	{
