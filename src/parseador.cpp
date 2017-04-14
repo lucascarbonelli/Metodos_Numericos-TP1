@@ -1,4 +1,5 @@
 #include "parseador.h" 
+#include <algorithm>
 
 //mapeo la fila del dat como un array de strings: [fecha ,ganador ,gPuntos ,perdedor,pPuntos]
 vector<string> rowToArray(string line){
@@ -57,6 +58,9 @@ void parseador(const char* f, vector<vector<double> >& enfrentamientos, vector<v
 		}
 	}
 
+	// el parceador de la catedra ordena los ids
+	sort(ids.begin(), ids.end());
+
 	// volver al principio del archivo
     partidos.clear();
     partidos.seekg(0);
@@ -71,8 +75,22 @@ void parseador(const char* f, vector<vector<double> >& enfrentamientos, vector<v
 
 	while(getline(partidos,line)) {
 		vector<string> datos = rowToArray(line);
-		int i = busquedaIndice(datos[1], ids);
-		int j = busquedaIndice(datos[3], ids);
+		int i, j;
+
+		stringstream ssPuntajeJugadorIzq(datos[2]);
+		ssPuntajeJugadorIzq >> i;
+
+		stringstream ssPuntajeJugadorDer(datos[4]);
+		ssPuntajeJugadorDer >> j;
+
+		if(i > j){
+			i = busquedaIndice(datos[1], ids);
+			j = busquedaIndice(datos[3], ids);
+		}
+		else{
+			i = busquedaIndice(datos[3], ids);
+			j = busquedaIndice(datos[1], ids);
+		}
 
 		vicDer[i][0]++; //victorias
 		vicDer[j][1]++; //derrotas
