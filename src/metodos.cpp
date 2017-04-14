@@ -181,17 +181,16 @@ vector<double> resolverTriangularSuperior(vector<vector<double> >& A, vector<dou
     return x;
 }
 
-
 vector<double> resolverTriangularInferior(vector<vector<double> >& A, vector<double>& b)
 {
     int dimension = A.size();
     vector<double> x(dimension, 0.0);
 
     // Se resuelve el sistema desde la primera fila(en la cual todos los coeficientes son cero menos uno) hacia abajo
-    for(int i = 0; i >= 0; ++i)
+    for(int i = 0; i < dimension; ++i)
     {
 		double resultadoParcial = 0.0;
-        for(int j = 0; j < i; ++j)
+        for(int j = 0; j < i+1; ++j)
         {
             resultadoParcial += x[j] * A[i][j];
         }
@@ -207,7 +206,7 @@ vector< vector<double> > transponer(vector< vector<double> > & A) {
 	{
 		for (int j = 0; j < dimension; ++j)
 		{
-			At[i,j] = A[j,i];
+			At[i][j] = A[j][i];
 		}
 	}
 	return At;
