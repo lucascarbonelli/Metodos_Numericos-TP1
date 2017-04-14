@@ -1,0 +1,74 @@
+
+
+
+
+
+%\begin{center}
+%\begin{tabular}{ |c|c|c| } 
+% \hline
+
+%cmm d5 original
+Posición & Puntaje \\
+3 & 0,268 \\
+6 & 0,344 \\
+2 & 0,468 \\
+5 & 0,532 \\
+1 & 0,604 \\
+4 & 0,784 \\
+
+% \hline
+%\end{tabular}
+%\end{center}
+
+%\begin{center}
+%\begin{tabular}{ |c|c|c| } 
+% \hline
+
+%cmm d5 nuevo
+Posición & Puntaje \\
+6 & 0,294694 \\
+3 & 0,311432 \\
+5 & 0,384081 \\
+2 & 0,57354  \\
+1 & 0,672187 \\
+4 & 0,764067 \\
+
+% \hline
+%\end{tabular}
+%\end{center}
+
+%\begin{center}
+%\begin{tabular}{ |c|c|c| } 
+% \hline
+
+%wp d5 original
+Posición & Puntaje \\
+3 & 0 \\
+6 & 0 \\
+2 & 0,5 \\
+5 & 0,5 \\
+1 & 0,666667 \\
+4 & 1 \\
+
+% \hline
+%\end{tabular}
+%\end{center}
+
+%\begin{center}
+%\begin{tabular}{ |c|c|c| } 
+% \hline
+
+
+
+%wp d5 nuevo
+Posición & Puntaje \\
+3 & 0 \\
+0 & 6 \\
+5 & 0,25 \\
+2 & 0,666667 \\
+1 & 0,75 \\
+4 & 1 \\
+
+% \hline
+%\end{tabular}
+%\end{center}
