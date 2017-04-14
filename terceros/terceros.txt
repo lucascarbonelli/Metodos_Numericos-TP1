@@ -3,72 +3,94 @@
 
 
 
-%\begin{center}
-%\begin{tabular}{ |c|c|c| } 
-% \hline
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
 
 %cmm d5 original
 Posición & Puntaje \\
 3 & 0,268 \\
+\hline
 6 & 0,344 \\
+\hline
 2 & 0,468 \\
+\hline
 5 & 0,532 \\
+\hline
 1 & 0,604 \\
+\hline
 4 & 0,784 \\
 
-% \hline
-%\end{tabular}
-%\end{center}
+ \hline
+\end{tabular}
+\end{center}
 
-%\begin{center}
-%\begin{tabular}{ |c|c|c| } 
-% \hline
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
 
 %cmm d5 nuevo
 Posición & Puntaje \\
 6 & 0,294694 \\
+\hline
 3 & 0,311432 \\
+\hline
 5 & 0,384081 \\
+\hline
 2 & 0,57354  \\
+\hline
 1 & 0,672187 \\
+\hline
 4 & 0,764067 \\
 
-% \hline
-%\end{tabular}
-%\end{center}
+ \hline
+\end{tabular}
+\end{center}
 
-%\begin{center}
-%\begin{tabular}{ |c|c|c| } 
-% \hline
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
 
 %wp d5 original
 Posición & Puntaje \\
+\hline
 3 & 0 \\
+\hline
 6 & 0 \\
+\hline
 2 & 0,5 \\
+\hline
 5 & 0,5 \\
+\hline
 1 & 0,666667 \\
+\hline
 4 & 1 \\
 
-% \hline
-%\end{tabular}
-%\end{center}
+ \hline
+\end{tabular}
+\end{center}
 
-%\begin{center}
-%\begin{tabular}{ |c|c|c| } 
-% \hline
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
 
 
 
 %wp d5 nuevo
 Posición & Puntaje \\
+\hline
 3 & 0 \\
+\hline
 0 & 6 \\
+\hline
 5 & 0,25 \\
+\hline
 2 & 0,666667 \\
+\hline
 1 & 0,75 \\
+\hline
 4 & 1 \\
 
-% \hline
-%\end{tabular}
-%\end{center}
+ \hline
+\end{tabular}
+\end{center}
