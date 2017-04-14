@@ -27,7 +27,7 @@ vector<vector<double> > cmm_A(const vector<vector<double> >& datos){
 vector<double> cmm_b(const vector<vector<int> >& victoriasDerrotas){
 	vector<double> b(victoriasDerrotas.size());
 	for(int i = 0; i < victoriasDerrotas.size(); ++i){
-		b[i] = 1 + (victoriasDerrotas[i][0] - victoriasDerrotas[i][1]) / 2;
+		b[i] = 1 + (victoriasDerrotas[i][0] - victoriasDerrotas[i][1]) / 2.0;
 	}
 	return b;
 }
