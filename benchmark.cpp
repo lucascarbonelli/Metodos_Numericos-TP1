@@ -13,19 +13,19 @@ using namespace std;
 //Benchmark devuelve el promedio del metodo pasado ejecutado sobre una cantidad cant de matrices de dimensión dimension
 double benchmark(int dimension, int cant, int metodo, int cantVecb) {
 	vector<vector<double> > matrices [cant];
-	vector<double> b[cant][cantVecb];
+	vector<double> b[cantVecb];
 	//vector<double> b(dimension, 1.0);
 
 	for (int i = 0; i < cant; ++i)
 	{
 		matrices[i] = generarSDP(dimension);
+	}
 
-		for (int j = 0; j < cantVecb; ++j)
-		{
-			b[i][j] = vector<double>(dimension);
-			for(int k = 0; k < cantVecb; ++k){
-				b[i][j][k] = (double) rand() / (RAND_MAX);
-			}
+	for (int j = 0; j < cantVecb; ++j)
+	{
+		b[j] = vector<double>(dimension);
+		for(int k = 0; k < dimension; ++k){
+			b[j][k] = (double) rand() / (RAND_MAX);
 		}
 	}
 
@@ -39,7 +39,8 @@ double benchmark(int dimension, int cant, int metodo, int cantVecb) {
 		if (metodo == 0) {
 			start = clock();
 			for(int j = 0; j < cantVecb; ++j){
-				eliminacionGaussiana(matrices[i], b[i][j]);
+				eliminacionGaussiana(matrices[i], b[j]);
+				vector<double> res = resolverTriangularSuperior(matrices[i], b[j]);
 			}
 			end = clock();
 			t = (((double)(end - start)) / CLOCKS_PER_SEC) * 1000; //dejo todo en milisegundos, para que no salte notación cientifica
@@ -48,7 +49,7 @@ double benchmark(int dimension, int cant, int metodo, int cantVecb) {
 			start = clock();
 			vector<vector<double> > resCholesky = cholesky(matrices[i], dimension);
 			for(int j = 0; j < cantVecb; ++j){
-				resolverTriangularInferior(resCholesky, b[i][j]);
+				vector<double> res = resolverTriangularInferior(resCholesky, b[j]);
 			}
 			end = clock();
 			t = (((double)(end - start)) / CLOCKS_PER_SEC) *  1000;

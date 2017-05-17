@@ -1,33 +1,41 @@
 #METODO=gauss
-DIM_MINIMA=100
-DIM_MAXIMA=100
+DIM=20
 DIM_STEP=20
-CANT_POR_DIM=5
-CANT_VEC_B=20
+CANT_POR_DIM=10
+CANT_VEC_B=100
+CANT_VEC_B_STEP=5
 PATH_SALIDA=.
 
-for ((i=1; i <= $CANT_VEC_B; i++)); do
-    for METODO_NUM in 0 1; do
+SALIDA_VARIANDO_CANT_B_GAUSS=gauss\_d$DIM\_dcant$CANT_POR_DIM\_bcant$CANT_VEC_B
+SALIDA_VARIANDO_CANT_B_CHOLESKY=cholesky\_d$DIM\_dcant$CANT_POR_DIM\_bcant$CANT_VEC_B
 
-        if [ $METODO_NUM -eq "0" ]; then
-            METODO=gauss
-        fi
+if [ -e $SALIDA_VARIANDO_CANT_B_GAUSS ]; then 
+    rm $SALIDA_VARIANDO_CANT_B_GAUSS
+fi
 
-        if [ $METODO_NUM -eq "1" ]; then
-            METODO=cholesky
-        fi
+if [ -e $SALIDA_VARIANDO_CANT_B_CHOLESKY ]; then 
+    rm $SALIDA_VARIANDO_CANT_B_CHOLESKY
+fi
 
-        SALIDA_NOMBRE=$METODO\_dmin$DIM_MINIMA\_dmax$DIM_MAXIMA\_step$DIM_STEP\_dcant$CANT_POR_DIM\_bcant$i
-        echo $SALIDA_NOMBRE
 
-        ./benchmark $PATH_SALIDA $SALIDA_NOMBRE $METODO_NUM $DIM_MINIMA $DIM_MAXIMA $DIM_STEP $CANT_POR_DIM $i
+for ((i=1; i <= $CANT_VEC_B; i+=CANT_VEC_B_STEP)); do
+    SALIDA_NOMBRE=gauss\_dmin$DIM\_dmax$DIM\_step$DIM_STEP\_dcant$CANT_POR_DIM\_bcant$i
+    echo $SALIDA_NOMBRE
 
-        if [ $DIM_MINIMA -eq $DIM_MAXIMA ]; then
-            SALIDA_VARIANDO_CANT_B=$METODO\_dmin$DIM_MINIMA\_dcant$CANT_POR_DIM\_bcant$CANT_VEC_B
-            if [ -e $SALIDA_VARIANDO_CANT_B ]; then 
-                echo -e >> $SALIDA_VARIANDO_CANT_B 
-            fi
-            cat $SALIDA_NOMBRE >> $SALIDA_VARIANDO_CANT_B
-        fi
-    done
+    ./benchmark $PATH_SALIDA $SALIDA_NOMBRE 0 $DIM $DIM $DIM_STEP $CANT_POR_DIM $i
+
+    cat $SALIDA_NOMBRE >> $SALIDA_VARIANDO_CANT_B_GAUSS
+    rm $SALIDA_NOMBRE
+
+
+    SALIDA_NOMBRE=cholesky\_dmin$DIM\_dmax$DIM\_step$DIM_STEP\_dcant$CANT_POR_DIM\_bcant$i
+    echo $SALIDA_NOMBRE
+
+    ./benchmark $PATH_SALIDA $SALIDA_NOMBRE 1 $DIM $DIM $DIM_STEP $CANT_POR_DIM $i
+
+    cat $SALIDA_NOMBRE >> $SALIDA_VARIANDO_CANT_B_CHOLESKY
+    rm $SALIDA_NOMBRE
+
+    echo -e >> $SALIDA_VARIANDO_CANT_B_GAUSS
+    echo -e >> $SALIDA_VARIANDO_CANT_B_CHOLESKY
 done
