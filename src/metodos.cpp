@@ -100,21 +100,25 @@ int buscarFilaPivotInferior(const vector<vector<double> > &A, int fila, int col)
 
 // Cholesky
 double diagonal(int i, const vector<vector<double> >& A, const vector<vector<double> >& L) {
-	vector<double> sumar(A.size(), 0.0);
+	double suma = 0.0;
+	//vector<double> sumar(A.size(), 0.0);
 	for (int k = 0; k <= i - 1; ++k) {
-		sumar[k] = pow(L[i][k], 2);
+		suma += pow(L[i][k], 2);
+		//sumar[k] = pow(L[i][k], 2);
 	}
-	double suma = kahan(sumar);
+	//double suma = kahan(sumar);
 	return sqrt(A[i][i] - suma);
 }
 
 
 double alrededorDiagonal(int i, int j, const vector<vector<double> > &A, const vector<vector<double> >& L) {
-	vector<double> sumar(A.size(), 0.0);
+	double suma = 0.0;
+	//vector<double> sumar(A.size(), 0.0);
 	for (int k = 0; k <= j - 1; ++k) {
-		sumar[k] = L[i][k] * L[j][k];
+		suma += L[i][k] * L[j][k];
+		//sumar[k] = L[i][k] * L[j][k];
 	}
-	double suma = kahan(sumar);
+	//double suma = kahan(sumar);
 	return (A[i][j] - suma) / L[j][j];
 }
 /*
