@@ -83,7 +83,8 @@ int main (int argc, char** argv) {
 		cout << "Métodos disponibles:" << endl;
 		cout << "0 Gauss" << endl;
 		cout << "1 Cholesky" << endl;
-		cout << endl;
+
+		return 0;
 	}
 
 	const char* outputPath = argv[1];

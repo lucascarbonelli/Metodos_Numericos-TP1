@@ -1,6 +1,11 @@
-#METODO=gauss
+#!/bin/bash
+
+METODO_GAUSS_NUM=0
+METODO_CHOLESKY_NUM=1
+
+#Test con una matriz de una dimension determinada y muchas b distintas
 DIM=100
-DIM_STEP=20
+DIM_STEP=1
 CANT_POR_DIM=10
 CANT_VEC_B=20
 CANT_VEC_B_STEP=1
@@ -19,19 +24,19 @@ fi
 
 
 for ((i=1; i <= $CANT_VEC_B; i+=CANT_VEC_B_STEP)); do
-    SALIDA_NOMBRE=gauss\_dmin$DIM\_dmax$DIM\_step$DIM_STEP\_dcant$CANT_POR_DIM\_bcant$i
+    SALIDA_NOMBRE=gauss\_dmin$DIM\_dmax$DIM\_step1_dcant$CANT_POR_DIM\_bcant$i
     echo $SALIDA_NOMBRE
 
-    ./benchmark $PATH_SALIDA $SALIDA_NOMBRE 0 $DIM $DIM $DIM_STEP $CANT_POR_DIM $i
+    ./benchmark $PATH_SALIDA $SALIDA_NOMBRE $METODO_GAUSS_NUM $DIM $DIM $DIM_STEP $CANT_POR_DIM $i
 
     cat $SALIDA_NOMBRE >> $SALIDA_VARIANDO_CANT_B_GAUSS
     rm $SALIDA_NOMBRE
 
 
-    SALIDA_NOMBRE=cholesky\_dmin$DIM\_dmax$DIM\_step$DIM_STEP\_dcant$CANT_POR_DIM\_bcant$i
+    SALIDA_NOMBRE=cholesky\_dmin$DIM\_dmax$DIM\_step1_dcant$CANT_POR_DIM\_bcant$i
     echo $SALIDA_NOMBRE
 
-    ./benchmark $PATH_SALIDA $SALIDA_NOMBRE 1 $DIM $DIM $DIM_STEP $CANT_POR_DIM $i
+    ./benchmark $PATH_SALIDA $SALIDA_NOMBRE $METODO_CHOLESKY_NUM $DIM $DIM $DIM_STEP $CANT_POR_DIM $i
 
     cat $SALIDA_NOMBRE >> $SALIDA_VARIANDO_CANT_B_CHOLESKY
     rm $SALIDA_NOMBRE
@@ -39,3 +44,29 @@ for ((i=1; i <= $CANT_VEC_B; i+=CANT_VEC_B_STEP)); do
     echo -e >> $SALIDA_VARIANDO_CANT_B_GAUSS
     echo -e >> $SALIDA_VARIANDO_CANT_B_CHOLESKY
 done
+
+
+#Test variando la dimension de las matrices pero con un una sola b 
+DIM_MIN=100
+DIM_MAX=1000
+DIM_STEP=20
+CANT_POR_DIM=10
+CANT_VEC_B=1
+PATH_SALIDA=.
+
+SALIDA_NOMBRE_GAUSS=gauss\_dmin$DIM_MIN\_dmax$DIM_MAX\_step$DIM_STEP\_dcant$CANT_POR_DIM\_bcant1
+SALIDA_NOMBRE_CHOLESKY=cholesky\_dmin$DIM_MIN\_dmax$DIM_MAX\_step$DIM_STEP\_dcant$CANT_POR_DIM\_bcant1
+
+if [ -e $SALIDA_NOMBRE_GAUSS ]; then 
+    rm $SALIDA_NOMBRE_GAUSS
+fi
+
+if [ -e $SALIDA_NOMBRE_CHOLESKY ]; then 
+    rm $SALIDA_NOMBRE_CHOLESKY
+fi
+
+echo $SALIDA_NOMBRE_GAUSS
+./benchmark $PATH_SALIDA $SALIDA_NOMBRE_GAUSS $METODO_GAUSS_NUM $DIM_MIN $DIM_MAX $DIM_STEP $CANT_POR_DIM $CANT_VEC_B
+
+echo $SALIDA_NOMBRE_CHOLESKY
+./benchmark $PATH_SALIDA $SALIDA_NOMBRE_CHOLESKY $METODO_CHOLESKY_NUM $DIM_MIN $DIM_MAX $DIM_STEP $CANT_POR_DIM $CANT_VEC_B
